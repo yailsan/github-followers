@@ -76,6 +76,10 @@ export default {
           if (userFollowersContainer) {
             userFollowersContainer.innerHTML += DOMPurify.sanitize(followers.data.map(follower => `<li><figure class="avatar avatar--small"><img src="${follower.avatar_url}"></figure></li>`).join(''));
           }
+
+          if (this.followersPage === this.followersLimitPage) {
+            this.loadMoreBtn.style.display = 'none';
+          }
         });
     }
   },
@@ -114,7 +118,7 @@ export default {
           <div>
             <h3 class="user-name">${user.data.login}</h3>
             <br>
-            <h6>Followers:</h6>
+            <h6>Followers (${user.data.followers}):</h6>
             <ul class="user-followers">
               ${followers.data.map(follower => `<li><figure class="avatar avatar--small"><img src="${follower.avatar_url}"></figure></li>`).join('')}
             </ul>
