@@ -1,0 +1,41 @@
+
+.search {
+    margin-top: 1em;
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.list-group-item p {
+    margin: 0;
+}
+.avatar {
+    border-radius: 50%;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+}
+.avatar img {
+    width: 100%;
+}
+.avatar--small {
+    height: 24px;
+    width: 24px;
+}
+.avatar--mid {
+    height: 32px;
+    width: 32px;
+}
+.avatar--big {
+    height: 200px;
+    width: 200px;
+}
+.search-results {
+    display: flex;
+}
+.user-followers {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
