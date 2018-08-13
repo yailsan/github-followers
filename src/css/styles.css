@@ -29,6 +29,7 @@
 }
 .avatar--big {
     height: 200px;
+    min-width: 200px;
     width: 200px;
 }
 .search-results {

@@ -1,6 +1,6 @@
 import _debounce from 'lodash/debounce';
 import DOMPurify from 'dompurify';
-import { searchUsers, getProfile } from './githubService';
+import { searchUsers, getProfile, getFollowers } from './githubService';
 
 
 export default {
@@ -10,9 +10,11 @@ export default {
     this.list = document.querySelector(options.previewContainer);
     this.searchResultContainer = document.querySelector(options.searchResultContainer);
     this.username = '';
+    this.followersPage = 1;
 
     this.search = this.search.bind(this);
     this.showUser = this.showUser.bind(this);
+    this.loadMoreFollowers = this.loadMoreFollowers.bind(this);
 
     this.bindEvents();
   },
@@ -63,6 +65,34 @@ export default {
       }); 
   },
 
+  loadMoreFollowers () {
+    if (this.followersPage < this.followersLimitPage) {
+      this.followersPage += 1;
+      
+      getFollowers(this.username, this.followersPage)
+        .then(followers => {
+          const userFollowersContainer = document.querySelector('.user-followers');
+
+          if (userFollowersContainer) {
+            userFollowersContainer.innerHTML += DOMPurify.sanitize(followers.data.map(follower => `<li><figure class="avatar avatar--small"><img src="${follower.avatar_url}"></figure></li>`).join(''));
+          }
+        });
+    }
+  },
+
+  loadMoreButton (followers) {
+    const headersLink = followers.headers.link;
+    this.followersLimitPage = headersLink ? +headersLink.split(',')[1].match(/\?page=(\d+)/)[1] : 1;
+
+    const button = '<button class="btn btn-primary">Load more followers</button>';
+
+    if (headersLink) {
+      this.searchResultContainer.querySelector('div').innerHTML += button;
+      this.loadMoreBtn = this.searchResultContainer.querySelector('button');
+      this.loadMoreBtn.addEventListener('click', this.loadMoreFollowers, false);
+    }
+  },
+
   showUser (event) {
     const target = event.target || event.srcElement;
 
@@ -70,19 +100,20 @@ export default {
       getProfile(this.username).then(([user, followers]) => {
         const userHTML = `
           <figure class="avatar avatar--big">
-            <img src="${user.avatar_url}">
+            <img src="${user.data.avatar_url}">
           </figure>
           <div>
-            <h3 class="user-name">${user.login}</h3>
+            <h3 class="user-name">${user.data.login}</h3>
             <br>
             <h6>Followers:</h6>
             <ul class="user-followers">
-              ${followers.map(follower => `<li><figure class="avatar avatar--small"><img src="${follower.avatar_url}"></figure></li>`).join('')}
+              ${followers.data.map(follower => `<li><figure class="avatar avatar--small"><img src="${follower.avatar_url}"></figure></li>`).join('')}
             </ul>
           </div>
         `;
 
         this.searchResultContainer.innerHTML += DOMPurify.sanitize(userHTML);
+        this.loadMoreButton(followers);
         this.emptyList();
       });
     }

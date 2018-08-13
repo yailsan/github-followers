@@ -4,11 +4,12 @@ import axios from 'axios';
 const basePath = 'https://api.github.com/';
 
 export const getUser = (username) => {
-  return axios.get(`${basePath}users/${username}`).then(user => user.data);
+  return axios.get(`${basePath}users/${username}`);
 };
 
-export const getFollowers = (username) => {
-  return axios.get(`${basePath}users/${username}/followers`).then(user => user.data);
+export const getFollowers = (username, page) => {
+  page = page ? `?page=${page}` : '';
+  return axios.get(`${basePath}users/${username}/followers${page}`);
 };
 
 export const searchUsers = (users) => {
