@@ -89,6 +89,9 @@ export default {
     if (headersLink) {
       this.searchResultContainer.querySelector('div').innerHTML += button;
       this.loadMoreBtn = this.searchResultContainer.querySelector('button');
+      if (this.loadMoreBtn) {
+        this.loadMoreBtn.removeEventListener('click', this.loadMoreFollowers);
+      }
       this.loadMoreBtn.addEventListener('click', this.loadMoreFollowers, false);
     }
   },
