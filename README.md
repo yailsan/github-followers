@@ -4,10 +4,13 @@ Search for a Github username and its followers.
 
 ## How to add features?
 Download project
-``` npm install ```
+` npm install `
 
 start project
-``` npm start ```
+` npm start `
 
 test project
-``` npm test ```
+` npm test `
+
+build the project
+` npm run build `
