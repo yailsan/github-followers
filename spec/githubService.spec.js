@@ -19,7 +19,7 @@ describe('github service calls', () => {
     mockAdapter.onGet(`${basePath}users/octocat`).reply(200, response);
 
     getUser('octocat').then((user) => {
-      expect(user).toEqual(response);
+      expect(user.data).toEqual(response);
       done();
     });
   });
@@ -43,7 +43,7 @@ describe('github service calls', () => {
     mockAdapter.onGet(`${basePath}users/octocat/followers`).reply(200, response, headers);
 
     getFollowers('octocat').then((followers) => {
-      expect(followers).toEqual(response);
+      expect(followers.data).toEqual(response);
       done();
     });
   });

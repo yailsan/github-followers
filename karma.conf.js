@@ -1,7 +1,7 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
       './spec/**/*.spec.js'
