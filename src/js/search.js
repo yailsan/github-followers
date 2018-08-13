@@ -34,8 +34,9 @@ export default {
 
   showPreview (users) {
     let items = '';
+    let usersToPreview = users.length > 5 ? 5 : users.length;
 
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < usersToPreview; i += 1) {
       items += `
         <li class="list-group-item">
           <figure class="avatar avatar--mid"><img src="${users[i].avatar_url}" /></figure>
