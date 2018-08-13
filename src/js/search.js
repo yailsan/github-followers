@@ -99,6 +99,12 @@ export default {
   showUser (event) {
     const target = event.target || event.srcElement;
 
+    if (target.tagName.toLowerCase() === 'p') {
+      this.username = target.innerText;
+    } else {
+      this.username = target.querySelector('p').innerText;
+    }
+
     if (target.tagName.toLowerCase() === 'li' || target.tagName.toLowerCase() === 'p' || target.tagName.toLowerCase() === 'figure') {
       getProfile(this.username).then(([user, followers]) => {
         const userHTML = `
@@ -115,7 +121,7 @@ export default {
           </div>
         `;
 
-        this.searchResultContainer.innerHTML += DOMPurify.sanitize(userHTML);
+        this.searchResultContainer.innerHTML = DOMPurify.sanitize(userHTML);
         this.loadMoreButton(followers);
         this.emptyList();
       });
